@@ -32,7 +32,7 @@ const AITutor = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.post('http://localhost:5000/api/ai/ask', 
+            const res = await axios.post('http://https://study-finder-ai.onrender.com/api/ai/ask', 
                 { 
                     question: currentQuestion,
                     subject: userSubjects 

@@ -15,7 +15,7 @@ const Messages = ({ unreadSenders = [], setUnreadSenders, socket }) => {
         const fetchConversations = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await axios.get('http://localhost:5000/api/messages/conversations', {
+                const res = await axios.get('http://https://study-finder-ai.onrender.com/api/messages/conversations', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setConversations(res.data);

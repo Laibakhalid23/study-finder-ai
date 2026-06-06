@@ -22,7 +22,7 @@ const FindPeers = ({ socket }) => {
             const token = localStorage.getItem('token');
             const config = { headers: { Authorization: `Bearer ${token}` } };
             const res = await axios.get(
-                `http://localhost:5000/api/users/peers?subject=${term}`, 
+                `http://https://study-finder-ai.onrender.com/api/users/peers?subject=${term}`, 
                 config
             );
             setPeers(res.data);

@@ -9,7 +9,7 @@ import AITutor from './pages/AITutor';
 import Messages from './pages/Messages';
 import LandingPage from './pages/LandingPage';
 
-const socket = io('http://localhost:5000');
+const socket = io('http://https://study-finder-ai.onrender.com');
 
 function App() {
   const [unreadSenders, setUnreadSenders] = useState([]);

@@ -16,7 +16,7 @@ const Dashboard = ({ unreadCount }) => {
     const fetchRecentConversations = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get('http://localhost:5000/api/messages/conversations', {
+        const res = await axios.get('http://https://study-finder-ai.onrender.com/api/messages/conversations', {
           headers: { Authorization: `Bearer ${token}` }
         });
         

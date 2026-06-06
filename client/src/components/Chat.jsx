@@ -13,7 +13,7 @@ const Chat = ({ receiver, onBack, socket }) => {
             if (!receiver?._id) return;
             try {
                 const token = localStorage.getItem('token');
-                const res = await axios.get(`http://localhost:5000/api/messages/${receiver._id}`, {
+                const res = await axios.get(`http://https://study-finder-ai.onrender.com/api/messages/${receiver._id}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setChatHistory(res.data);
@@ -56,7 +56,7 @@ const Chat = ({ receiver, onBack, socket }) => {
     const handleDeleteMessage = async (msgId) => {
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.delete(`http://localhost:5000/api/messages/${msgId}`, {
+            const res = await axios.delete(`http://https://study-finder-ai.onrender.com/api/messages/${msgId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
@@ -80,7 +80,7 @@ const Chat = ({ receiver, onBack, socket }) => {
         if (!message.trim()) return;
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.post('http://localhost:5000/api/messages', 
+            const res = await axios.post('http://https://study-finder-ai.onrender.com/api/messages', 
                 { receiverId: receiver._id, message: message },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

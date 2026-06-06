@@ -12,7 +12,7 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:5000/api/users/login', { email, password });
+            const res = await axios.post('http://https://study-finder-ai.onrender.com/api/users/login', { email, password });
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('user', JSON.stringify(res.data));
             alert("Login Successful! 🎉");
