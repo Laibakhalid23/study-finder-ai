@@ -21,7 +21,7 @@ const Register = () => {
                 ...formData,
                 subjects: formData.subjects.split(',').map(s => s.trim())
             };
-            const res = await axios.post('http://https://study-finder-ai.onrender.com/api/users/register', formattedData);
+            const res = await axios.post('https://study-finder-ai.onrender.com/api/users/register', formattedData);
             alert(res.data.message);
             navigate('/login');
         } catch (err) {

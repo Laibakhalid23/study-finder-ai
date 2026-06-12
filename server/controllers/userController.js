@@ -28,7 +28,7 @@ exports.registerUser = async (req, res) => {
             verificationToken 
         });
 
-        const verifyUrl = `http://https://study-finder-ai.onrender.com/api/users/verify/${verificationToken}`;
+        const verifyUrl = `https://study-finder-ai.onrender.com/api/users/verify/${verificationToken}`;
 
         const htmlContent = `
             <div style="font-family: Arial, sans-serif; border: 1px solid #e2e8f0; padding: 30px; border-radius: 12px; max-width: 500px; margin: auto;">
