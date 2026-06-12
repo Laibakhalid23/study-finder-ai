@@ -119,6 +119,11 @@ npm run dev
 ```
 Your application will be live at http://localhost:5173!
 
+## 🚀 Live Demo
+
+You can check out the live functional deployment of this application here:  
+👉 **[StudyAI Live Application](https://study-finder-ai-pr91.vercel.app)**
+
 ## 💡 Future Roadmap
 [ ] Audio/Video Group Rooms: Enabling face-to-face virtual study rooms using WebRTC.
 
