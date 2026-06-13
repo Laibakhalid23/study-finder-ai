@@ -2,19 +2,21 @@ const nodemailer = require('nodemailer');
 
 const sendEmail = async (options) => {
     try {
-        // Enforcing direct SSL secure channel configuration for stable cloud-instance executions
+        
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
-            port: 465,
-            secure: true, // true for port 465
+            port: 465, 
+            secure: true, 
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS, 
             },
             tls: {
-                rejectUnauthorized: false, // Bypasses internal routing proxies on cloud servers
+                rejectUnauthorized: false, 
                 minVersion: 'TLSv1.2'
-            }
+            },
+            connectionTimeout: 10000, 
+            greetingTimeout: 10000
         });
 
         const mailOptions = {
