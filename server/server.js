@@ -8,17 +8,37 @@ const { Server } = require('socket.io');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+// Whitelist origins for both development and production environments
+const allowedOrigins = [
+    "https://study-finder-ai-pr91.vercel.app",
+    "http://localhost:5173"
+];
+
+// Configure Express CORS correctly
+app.use(cors({
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps, curl, or server-to-server)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
+            const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+    },
+    credentials: true
+}));
+
 app.use(express.json());
 
 // Create HTTP Server
 const server = http.createServer(app);
 
-// Initialize Socket.io
+// Initialize Socket.io with production and local CORS configurations
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:5173",
-        methods: ["GET", "POST"]
+        origin: allowedOrigins,
+        methods: ["GET", "POST"],
+        credentials: true
     }
 });
 
