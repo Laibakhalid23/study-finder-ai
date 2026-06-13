@@ -63,8 +63,6 @@ exports.registerUser = async (req, res) => {
     }
 };
 
-
-
 // @desc    Verify Email Token
 exports.verifyEmail = async (req, res) => {
     try {
@@ -87,7 +85,7 @@ exports.verifyEmail = async (req, res) => {
             <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
                 <h1 style="color: #22c55e;">Email Verified Successfully! ✅</h1>
                 <p>Your account is now active. You can now return to the app and log in.</p>
-                <a href="http://localhost:5173/login" style="display: inline-block; margin-top: 20px; color: #2563eb; font-weight: bold; text-decoration: none; border: 1px solid #2563eb; padding: 10px 20px; border-radius: 5px;">Go to Login Page</a>
+                <a href="https://study-finder-ai-pr91.vercel.app/login" style="display: inline-block; margin-top: 20px; color: #2563eb; font-weight: bold; text-decoration: none; border: 1px solid #2563eb; padding: 10px 20px; border-radius: 5px;">Go to Login Page</a>
             </div>
         `);
     } catch (err) {
@@ -123,6 +121,7 @@ exports.loginUser = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
 exports.findPeers = async (req, res) => {
     try {
         const { subject } = req.query;
