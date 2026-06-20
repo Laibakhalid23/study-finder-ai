@@ -7,7 +7,7 @@ const Sidebar = ({ unreadCount }) => {
   const location = useLocation();
 
   const menuItems = [
-    { label: 'Profile', icon: <User size={18} />, path: '/dashboard' },
+    { label: 'Profile', icon: <User size={18} />, path: '/profile' },
     { label: 'Find Peers', icon: <Search size={18} />, path: '/findpeers' },
     { label: 'Messages', icon: <MessageSquare size={18} />, path: '/messages' },
     { label: 'AI Tutor', icon: <Sparkles size={18} />, path: '/aitutor' },
