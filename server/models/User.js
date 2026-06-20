@@ -30,14 +30,6 @@ const UserSchema = new mongoose.Schema({
         enum: ['student', 'admin'], 
         default: 'student' 
     },
-    // Email Verification Fields
-    isVerified: { 
-        type: Boolean, 
-        default: false 
-    },
-    verificationToken: {
-        type: String
-    },
     createdAt: { 
         type: Date, 
         default: Date.now 
