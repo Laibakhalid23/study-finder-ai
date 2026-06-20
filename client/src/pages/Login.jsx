@@ -12,7 +12,12 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('https://study-finder-ai.onrender.com/api/users/login', { email, password });
+            // Dynamic routing switch
+            const baseUrl = window.location.hostname === 'localhost' 
+                ? 'http://localhost:5000' 
+                : 'https://study-finder-ai.onrender.com';
+
+            const res = await axios.post(`${baseUrl}/api/users/login`, { email, password });
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('user', JSON.stringify(res.data));
             alert("Login Successful! 🎉");
@@ -24,7 +29,6 @@ const Login = () => {
 
     return (
         <div className="min-h-screen bg-[#fafafa] flex items-center justify-center p-4 relative overflow-hidden">
-         
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
             <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none" />
 

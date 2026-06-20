@@ -9,7 +9,12 @@ import AITutor from './pages/AITutor';
 import Messages from './pages/Messages';
 import LandingPage from './pages/LandingPage';
 
-const socket = io('https://study-finder-ai.onrender.com');
+// Dynamically select URL based on environment
+const BACKEND_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:5000' 
+  : 'https://study-finder-ai.onrender.com';
+
+const socket = io(BACKEND_URL);
 
 function App() {
   const [unreadSenders, setUnreadSenders] = useState([]);
@@ -22,11 +27,9 @@ function App() {
       socket.emit('join_room', user._id);
 
       const handleReceiveMessage = (data) => {
-
         const currentChatUrl = `/messages/${data.senderId}`;
         if (window.location.pathname !== currentChatUrl) {
           setUnreadSenders(prev => {
-
             if (!prev.includes(data.senderId)) {
               return [...prev, data.senderId];
             }

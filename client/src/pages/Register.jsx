@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, Mail, Lock, BookOpen, PenTool, UserPlus, Loader2, Sparkles } from 'lucide-react';
+import { User, Mail, Lock, BookOpen, PenTool, UserPlus, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
@@ -21,7 +21,13 @@ const Register = () => {
                 ...formData,
                 subjects: formData.subjects.split(',').map(s => s.trim())
             };
-            const res = await axios.post('https://study-finder-ai.onrender.com/api/users/register', formattedData);
+            
+            // Dynamic routing switch
+            const baseUrl = window.location.hostname === 'localhost' 
+                ? 'http://localhost:5000' 
+                : 'https://study-finder-ai.onrender.com';
+
+            const res = await axios.post(`${baseUrl}/api/users/register`, formattedData);
             alert(res.data.message);
             navigate('/login');
         } catch (err) {
@@ -40,9 +46,8 @@ const Register = () => {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ type: "spring", duration: 0.5 }}
-                className="max-w-xl w-full bg-white rounded-3xl shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-200/60 p-8 md:p-10"
+                className="max-w-xl w-full bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-200/60 p-8 md:p-10"
             >
-              
                 <div className="flex flex-col items-center text-center mb-8">
                     <div className="w-12 h-12 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-md shadow-blue-500/10 mb-4">
                         <UserPlus size={20} />
