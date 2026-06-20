@@ -75,16 +75,17 @@ exports.updateProfile = async (req, res) => {
 
         const { name, bio, subjects, currentPassword, newPassword } = req.body;
 
-        // Update basic fields
-        if (name) user.name = name;
+        // Update fields safely with fallbacks
+        if (name && name.trim() !== "") user.name = name;
         if (bio !== undefined) user.bio = bio;
+        
         if (subjects) {
             user.subjects = Array.isArray(subjects)
                 ? subjects
                 : subjects.split(',').map(s => s.trim()).filter(Boolean);
         }
 
-        // Password change — only if both fields provided
+        // Password change logic execution
         if (currentPassword && newPassword) {
             const isMatch = await bcrypt.compare(currentPassword, user.password);
             if (!isMatch) {
@@ -93,12 +94,12 @@ exports.updateProfile = async (req, res) => {
             if (newPassword.length < 6) {
                 return res.status(400).json({ message: "New password must be at least 6 characters" });
             }
-            user.password = newPassword; // pre-save hook will hash it
+            user.password = newPassword; // Document hooks will auto hash this inside models config
         }
 
         const updatedUser = await user.save();
 
-        // Return updated user data (same shape as login response)
+        // Return unified data configuration to perfectly sync frontend localStorage payload
         res.json({
             _id: updatedUser._id,
             name: updatedUser.name,
@@ -111,7 +112,7 @@ exports.updateProfile = async (req, res) => {
 
     } catch (err) {
         console.error("Update Profile Error:", err);
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ message: err.response?.data?.message || err.message });
     }
 };
 

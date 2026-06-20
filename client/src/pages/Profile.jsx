@@ -12,7 +12,6 @@ const Profile = () => {
     const [formData, setFormData] = useState({
         name: '',
         bio: '',
-        subjects: '',
         currentPassword: '',
         newPassword: ''
     });
@@ -42,7 +41,7 @@ const Profile = () => {
                 }));
                 setSubjectsList(user.subjects || []);
             } catch (err) {
-                setError("Failed to load profile.");
+                setError(err.response?.data?.message || "Failed to load profile.");
             } finally {
                 setFetching(false);
             }
@@ -94,11 +93,14 @@ const Profile = () => {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
-            // Update localStorage with new data
-            const currentUser = JSON.parse(localStorage.getItem('user'));
-            const updatedUser = { ...currentUser, ...res.data };
-            localStorage.setItem('user', JSON.stringify(updatedUser));
-            localStorage.setItem('token', res.data.token);
+            // Extract token safely and separate user metadata payload
+            const { token: newToken, ...restUserData } = res.data;
+
+            // Update localStorage properly with pure user structure
+            localStorage.setItem('user', JSON.stringify(restUserData));
+            if (newToken) {
+                localStorage.setItem('token', newToken);
+            }
 
             setSuccess("Profile updated successfully!");
             setFormData(prev => ({ ...prev, currentPassword: '', newPassword: '' }));
@@ -113,7 +115,7 @@ const Profile = () => {
         }
     };
 
-    const user = JSON.parse(localStorage.getItem('user')) || {};
+    const cachedUser = JSON.parse(localStorage.getItem('user')) || {};
 
     if (fetching) {
         return (
@@ -142,18 +144,18 @@ const Profile = () => {
                     {/* Avatar Card */}
                     <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 mb-6 flex items-center gap-5">
                         <div className="h-16 w-16 bg-gradient-to-tr from-blue-600 to-indigo-600 text-white rounded-2xl flex items-center justify-center font-black text-2xl shadow-md shadow-blue-500/20 flex-shrink-0">
-                            {formData.name ? formData.name.charAt(0).toUpperCase() : user.name?.charAt(0).toUpperCase()}
+                            {formData.name ? formData.name.charAt(0).toUpperCase() : cachedUser.name?.charAt(0).toUpperCase()}
                         </div>
                         <div>
-                            <h2 className="font-bold text-slate-900 text-lg">{formData.name || user.name}</h2>
-                            <p className="text-slate-500 text-sm">{user.email}</p>
+                            <h2 className="font-bold text-slate-900 text-lg">{formData.name || cachedUser.name}</h2>
+                            <p className="text-slate-500 text-sm">{cachedUser.email}</p>
                             <span className="inline-block mt-1 text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-blue-600 px-2.5 py-0.5 rounded-full">
-                                {user.role || 'student'}
+                                {cachedUser.role || 'student'}
                             </span>
                         </div>
                     </div>
 
-                    {/* Success / Error */}
+                    {/* Success / Error Messages */}
                     {success && (
                         <motion.div
                             initial={{ opacity: 0, y: -8 }}
@@ -198,7 +200,7 @@ const Profile = () => {
                                 <label className="block text-xs font-semibold text-slate-600 mb-1.5">Email <span className="text-slate-400 font-normal">(cannot be changed)</span></label>
                                 <Mail className="absolute left-3.5 top-[38px] text-slate-300" size={15} />
                                 <input
-                                    value={user.email || ''}
+                                    value={cachedUser.email || ''}
                                     disabled
                                     className="w-full pl-10 pr-4 py-2.5 bg-slate-100 border border-slate-200 rounded-xl text-sm text-slate-400 cursor-not-allowed"
                                 />
