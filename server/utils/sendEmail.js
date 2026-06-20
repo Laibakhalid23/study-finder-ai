@@ -2,7 +2,6 @@ const nodemailer = require('nodemailer');
 
 const sendEmail = async (options) => {
     try {
-        
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 465, 
@@ -15,8 +14,10 @@ const sendEmail = async (options) => {
                 rejectUnauthorized: false, 
                 minVersion: 'TLSv1.2'
             },
-            connectionTimeout: 10000, 
-            greetingTimeout: 10000
+            // Added: Forces Node to prioritize IPv4 over IPv6 networks on cloud servers
+            family: 4, 
+            connectionTimeout: 12000, 
+            greetingTimeout: 12000
         });
 
         const mailOptions = {
@@ -30,6 +31,7 @@ const sendEmail = async (options) => {
         console.log("📧 Email sent successfully to:", options.email);
     } catch (error) {
         console.error("📧 Nodemailer Connection Error:", error);
+        // Throwing error back to userController so our elegant fallback mechanism triggers smoothly
         throw new Error("Email could not be sent");
     }
 };
