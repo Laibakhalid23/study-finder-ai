@@ -28,9 +28,12 @@ const Register = () => {
                 : 'https://study-finder-ai.onrender.com';
 
             const res = await axios.post(`${baseUrl}/api/users/register`, formattedData);
+            
+            // Fixed: Directly reading backend custom bypass message 
             alert(res.data.message);
             navigate('/login');
         } catch (err) {
+            // Fixed: Showing actual network error response instead of outdated hardcoded prompts
             alert(err.response?.data?.message || "Registration Failed. Please try again.");
         } finally {
             setLoading(false);
